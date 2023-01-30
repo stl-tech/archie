@@ -1,0 +1,27 @@
+{
+  "name": "archie",
+  "version": "0.1.0",
+  "description": "Inspired by wheelie, archie is a Slack bot for managing the STL Tech Slack community",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stl-tech/archie.git"
+  },
+  "keywords": [
+    "Slack"
+  ],
+  "author": "sehqlr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stl-tech/archie/issues"
+  },
+  "homepage": "https://github.com/stl-tech/archie#readme",
+  "dependencies": {
+    "@slack/bolt": "^3.12.2",
+    "dotenv": "^16.0.3"
+  }
+}
