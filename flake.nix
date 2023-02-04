@@ -28,7 +28,7 @@
             inherit inputs pkgs;
             modules = [{
               # https://devenv.sh/reference/options/
-              packages = [ pkgs.yarn ];
+              packages = [ pkgs.heroku pkgs.yarn ];
 
               languages.javascript.enable = true;
 
