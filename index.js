@@ -17,7 +17,7 @@ app.command('/admin', async ({ command, ack, client, respond, logger }) => {
 
     try {
         await client.chat.postMessage({
-            text: `Incoming message for admins from <@${command.user_name}> in <@${command.channel_name}>:\n${command.text}`,
+            text: `Incoming message for admins from <#${command.user_name}> in <@${command.channel_name}>:\n${command.text}`,
             channel: "admin"
         });
         await respond(`The admins have been messaged, <@${command.user_name}>`);
