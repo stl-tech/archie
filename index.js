@@ -17,7 +17,7 @@ app.command('/admin', async ({ command, ack, client, respond, logger }) => {
 
     try {
         await client.chat.postMessage({
-            text: `Incoming message for admins from <#${command.user_name}> in <@${command.channel_name}>:\n${command.text}`,
+            text: `Incoming message for admins from <@${command.user_name}> in <#${command.channel_name}>:\n${command.text}`,
             channel: "admin"
         });
         await respond(`The admins have been messaged, <@${command.user_name}>`);
@@ -32,7 +32,7 @@ app.command('/list_private', async ({ command, ack, client, respond }) => {
 
     try {
         const private_channel_ls = await client.conversations.list({ types: "private_channel" });
-        const channel_names = private_channel_ls.channels.map(e => `- ${e.name}`)
+        const channel_names = private_channel_ls.channels.filter(e => e.name != "admin").map(e => `- ${e.name}`)
         await respond(`Current private channels:\n${channel_names.join('\n')}\nUse \`/join_private\` to request membership.`)
     }
     catch (error) {
