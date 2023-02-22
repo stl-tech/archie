@@ -45,7 +45,7 @@ app.command('/join-private', async ({ command, ack, client, respond }) => {
 
     try {
         await client.chat.postMessage({
-            text: `<@${command.user_name}> wishes to join this channel. Use \`/invite <@${command.username}>\` to let them in`,
+            text: `<@${command.user_name}> wishes to join this channel. Use \`/invite <@${command.user_name}>\` to let them in`,
             channel: command.text
         })
         await respond(`The channel have been messaged, <@${command.user_name}>, your invitation is being reviewed.`);
