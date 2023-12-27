@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     devenv.url = "github:cachix/devenv";
   };
 
@@ -19,8 +19,8 @@
           value = f name;
         }) systems);
     in {
-      devShell = forAllSystems
-        (system: self.outputs.devShells.${system}.default);
+      devShell =
+        forAllSystems (system: self.outputs.devShells.${system}.default);
       devShells = forAllSystems (system:
         let pkgs = import nixpkgs { inherit system; };
         in {
