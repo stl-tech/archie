@@ -31,11 +31,6 @@
               packages = [ pkgs.heroku pkgs.yarn ];
 
               languages.javascript.enable = true;
-
-              enterShell = ''
-                echo node --version $(node --version)
-                echo yarn --version $(yarn --version)
-              '';
             }];
           };
         });
