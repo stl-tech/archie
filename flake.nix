@@ -21,7 +21,7 @@
     in {
       packages = forAllSystems (system: {
         default = let pkgs = import nixpkgs { inherit system; };
-        in pkgs.callPackage ./.;
+        in pkgs.callPackage ./. { inherit pkgs; };
       });
       devShell =
         forAllSystems (system: self.outputs.devShells.${system}.default);
