@@ -5,64 +5,60 @@
   };
 
   outputs = { self, nixpkgs, devenv, ... }@inputs:
-    let
-      systems = [
-        "x86_64-linux"
-        "i686-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-      forAllSystems = f:
-        builtins.listToAttrs (map (name: {
-          inherit name;
-          value = f name;
-        }) systems);
+    let system = "x86_64-linux";
     in {
-      packages = forAllSystems (system: {
-        default = let pkgs = import nixpkgs { inherit system; };
-        in pkgs.callPackage ./. { inherit pkgs; };
-      });
-      devShell =
-        forAllSystems (system: self.outputs.devShells.${system}.default);
-      devShells = forAllSystems (system:
+      packages.${system}.default =
         let pkgs = import nixpkgs { inherit system; };
-        in {
-          default = devenv.lib.mkShell {
-            inherit inputs pkgs;
-            modules = [{
-              # https://devenv.sh/reference/options/
-              packages = [ pkgs.heroku pkgs.yarn ];
+        in pkgs.callPackage ./. { inherit pkgs; };
+      devShells.${system} = let pkgs = import nixpkgs { inherit system; };
+      in {
+        default = devenv.lib.mkShell {
+          inherit inputs pkgs;
+          modules = [{
+            # https://devenv.sh/reference/options/
+            packages = [ pkgs.heroku pkgs.yarn ];
 
-              languages.javascript.enable = true;
-            }];
-          };
-        });
+            languages.javascript.enable = true;
+          }];
+        };
+      };
       nixosModules = {
         default = { config, lib, pkgs, ... }:
+          with lib;
           let
             cfg = config.services.archie;
             description = "archie, a Slack bot for stl-tech";
           in {
             options.services.archie = {
-              enable = lib.mkEnableOption description;
-              domain = lib.mkOption {
-                type = lib.types.str;
-                description = "What domain to use for archie";
+              enable = mkEnableOption description;
+              domain = mkOption {
+                type = types.str;
+                description = "What domain to serve archie from";
               };
-              port = lib.mkOption {
-                type = lib.types.int;
-                description = "What port to serve archie on";
-                default = 3000;
+              acme-email = mkOption {
+                  type = types.str;
+                  description = "Which email to use for Let's Encrypt";
+              };
+              port = mkOption {
+                  type = types.int;
+                  description = "Which port to serve from. Make sure this matches up with envFile you deploy!";
+                  default = 3000;
               };
             };
-            config = lib.mkIf cfg.enable {
-              networking.firewall.allowedTCPPorts = [ cfg.port ];
+            config = mkIf cfg.enable {
+              security.acme.certs.${domain}.email = cfg.acme-email;
+              services.nginx.virtualHosts.${cfg.domain} = {
+                  enableACME = true;
+                  forceSSL = true;
+                  locations."/" = {
+                      proxyPass = "http://localhost:${toString cfg.port}";
+                  };
+              };
               systemd.services.archie = {
                 inherit description;
-                path = [ pkgs.yarn ];
+                path = [ self.outputs.packages.${system}.default ];
                 script = ''
-                  yarn start
+                  archie
                 '';
               };
             };
