@@ -34,5 +34,35 @@
             }];
           };
         });
+      nixosModules = {
+        default = { config, lib, pkgs, ... }:
+          let
+            cfg = config.services.archie;
+            description = "archie, a Slack bot for stl-tech";
+          in {
+            options.services.archie = {
+              enable = lib.mkEnableOption description;
+              domain = lib.mkOption {
+                type = lib.types.str;
+                description = "What domain to use for archie";
+              };
+              port = lib.mkOption {
+                type = lib.types.int;
+                description = "What port to serve archie on";
+                default = 3000;
+              };
+            };
+            config = lib.mkIf cfg.enable {
+              networking.firewall.allowedTCPPorts = [ cfg.port ];
+              systemd.services.archie = {
+                inherit description;
+                path = [ pkgs.yarn ];
+                script = ''
+                  yarn start
+                '';
+              };
+            };
+          };
+      };
     };
 }
