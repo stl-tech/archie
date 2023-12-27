@@ -19,6 +19,10 @@
           value = f name;
         }) systems);
     in {
+      packages = forAllSystems (system: {
+        default = let pkgs = import nixpkgs { inherit system; };
+        in pkgs.callPackage ./.;
+      });
       devShell =
         forAllSystems (system: self.outputs.devShells.${system}.default);
       devShells = forAllSystems (system:
