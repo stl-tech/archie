@@ -46,7 +46,7 @@
               };
             };
             config = mkIf cfg.enable {
-              security.acme.certs.${domain}.email = cfg.acme-email;
+              security.acme.certs.${cfg.domain}.email = cfg.acme-email;
               services.nginx.virtualHosts.${cfg.domain} = {
                   enableACME = true;
                   forceSSL = true;
