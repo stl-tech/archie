@@ -59,6 +59,7 @@
                 script = ''
                   ${self.outputs.packages.${system}.default}/bin/archie
                 '';
+                wantedBy = [ "multi-user.target"];
               };
             };
           };
