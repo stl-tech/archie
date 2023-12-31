@@ -56,9 +56,8 @@
               };
               systemd.services.archie = {
                 inherit description;
-                path = [ self.outputs.packages.${system}.default ];
                 script = ''
-                  archie
+                  ${self.outputs.packages.${system}.default}/bin/archie
                 '';
               };
             };
