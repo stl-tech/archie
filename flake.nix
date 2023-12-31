@@ -64,6 +64,9 @@
                 script = ''
                   ${self.outputs.packages.${system}.default}/bin/archie
                 '';
+                serviceConfig = {
+                    EnvironmentFile = cfg.envFile;
+                };
                 wantedBy = [ "multi-user.target"];
               };
             };
