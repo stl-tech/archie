@@ -31,13 +31,18 @@
           in {
             options.services.archie = {
               enable = mkEnableOption description;
+              acme-email = mkOption {
+                  type = types.str;
+                  description = "Which email to use for Let's Encrypt";
+              };
               domain = mkOption {
                 type = types.str;
                 description = "What domain to serve archie from";
               };
-              acme-email = mkOption {
-                  type = types.str;
-                  description = "Which email to use for Let's Encrypt";
+              envFile = mkOption {
+                  type = types.path;
+                  description = "The path for the dotenv file, to load secrets in";
+                  default = /run/keys/archie.env;
               };
               port = mkOption {
                   type = types.int;
