@@ -42,7 +42,7 @@
               envFile = mkOption {
                   type = types.path;
                   description = "The path for the dotenv file, to load secrets in";
-                  default = /run/keys/archie.env;
+                  default = /root/archie.env;
               };
               port = mkOption {
                   type = types.int;
