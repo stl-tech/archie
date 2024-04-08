@@ -28,7 +28,7 @@ app.command('/admin', async ({ command, ack, client, respond, logger }) => {
     }
 })
 
-app.command('/list-private', async ({ command, ack, client, respond }) => {
+app.command('/list_private', async ({ command, ack, client, respond }) => {
     await ack();
 
     try {
@@ -41,7 +41,7 @@ app.command('/list-private', async ({ command, ack, client, respond }) => {
     }
 })
 
-app.command('/join-private', async ({ command, ack, client, respond }) => {
+app.command('/join_private', async ({ command, ack, client, respond }) => {
     await ack();
 
     try {
