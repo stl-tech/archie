@@ -34,7 +34,7 @@ app.command('/list_private', async ({ command, ack, client, respond }) => {
     try {
         const private_channel_ls = await client.conversations.list({ types: "private_channel" });
         const channel_names = private_channel_ls.channels.filter(e => e.name != "admin").map(e => `- ${e.name}`)
-        await respond(`Current private channels:\n${channel_names.join('\n')}\nUse \`/join-private\` to request membership.`)
+        await respond(`Current private channels:\n${channel_names.join('\n')}\nUse \`/join_private\` to request membership.`)
     }
     catch (error) {
         await respond(`Something went wrong!\n${error}`);
