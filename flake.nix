@@ -1,4 +1,6 @@
 {
+  description = "Flake for Archie, a slack bot for stl-tech";
+  
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     devenv.url = "github:cachix/devenv";
