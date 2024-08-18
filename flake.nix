@@ -53,6 +53,7 @@
               };
             };
             config = mkIf cfg.enable {
+              security.acme.acceptTerms = true;
               security.acme.certs.${cfg.domain} = {
                 email = cfg.acme-email; 
                 webroot = "/var/lib/acme/acme-challenge";
