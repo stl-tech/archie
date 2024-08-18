@@ -53,7 +53,11 @@
               };
             };
             config = mkIf cfg.enable {
-              security.acme.certs.${cfg.domain}.email = cfg.acme-email;
+              security.acme.certs.${cfg.domain} = {
+                email = cfg.acme-email; 
+                webroot = "/var/lib/acme/acme-challenge";
+              };
+
               services.nginx.virtualHosts.${cfg.domain} = {
                   enableACME = true;
                   forceSSL = true;
