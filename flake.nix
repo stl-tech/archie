@@ -53,6 +53,8 @@
               };
             };
             config = mkIf cfg.enable {
+              networking.firewall.allowedTCPPorts = [ 80 443 ];
+              
               security.acme.acceptTerms = true;
               security.acme.certs.${cfg.domain} = {
                 email = cfg.acme-email; 
