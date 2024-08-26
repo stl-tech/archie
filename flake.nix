@@ -59,12 +59,15 @@
                 webroot = "/var/lib/acme/acme-challenge";
               };
 
-              services.nginx.virtualHosts.${cfg.domain} = {
+              services.nginx = {
+                enable = true;
+                virtualHosts.${cfg.domain} = {
                   enableACME = true;
                   forceSSL = true;
                   locations."/" = {
                       proxyPass = "http://localhost:${toString cfg.port}";
                   };
+              };
               };
               systemd.services.archie = {
                 inherit description;
