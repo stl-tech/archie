@@ -56,10 +56,7 @@
               networking.firewall.allowedTCPPorts = [ 80 443 ];
               
               security.acme.acceptTerms = true;
-              security.acme.certs.${cfg.domain} = {
-                email = cfg.acme-email; 
-                webroot = "/var/lib/acme/acme-challenge";
-              };
+              security.acme.defaults.email = cfg.acme-email;
 
               services.nginx = {
                 enable = true;
