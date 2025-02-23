@@ -53,20 +53,15 @@
               };
             };
             config = mkIf cfg.enable {
-              networking.firewall.allowedTCPPorts = [ 80 443 ];
+              networking.firewall.allowedTCPPorts = [ 80 ];
               
-              security.acme.acceptTerms = true;
-              security.acme.defaults.email = cfg.acme-email;
-
               services.nginx = {
                 enable = true;
                 virtualHosts.${cfg.domain} = {
-                  enableACME = true;
-                  forceSSL = true;
                   locations."/" = {
                       proxyPass = "http://localhost:${toString cfg.port}";
                   };
-              };
+                };
               };
               systemd.services.archie = {
                 inherit description;
